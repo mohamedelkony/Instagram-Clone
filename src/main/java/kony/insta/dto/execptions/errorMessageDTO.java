@@ -1,7 +1,11 @@
 package kony.insta.dto.execptions;
+import com.fasterxml.jackson.annotation.JsonCreator;
 import lombok.AllArgsConstructor;
 
-@AllArgsConstructor
 public class errorMessageDTO {
-public  String message;
+    @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
+    public  errorMessageDTO(String msg){
+        this.message=msg;
+    }
+    public  String message;
 }

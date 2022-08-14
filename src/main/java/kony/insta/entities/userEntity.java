@@ -1,10 +1,8 @@
 package kony.insta.entities;
 import lombok.Data;
-import java.util.*;
-import java.io.*;
 
 @Data
-public class userEntity implements Comparable<userEntity>{
+public class userEntity implements Comparable<userEntity> {
     private long id;
     private String email;
     private String gender;
@@ -14,10 +12,7 @@ public class userEntity implements Comparable<userEntity>{
     private int rate;
     private boolean privateAccount;
 
-    public  int compareTo(userEntity other)
-    {
-        return (int)(this.id-other.id);
+    public int compareTo(userEntity other) {
+        return (int) (this.id - other.id);
     }
-
-
 }

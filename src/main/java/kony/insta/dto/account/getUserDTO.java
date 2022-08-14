@@ -1,9 +1,14 @@
 package kony.insta.dto.account;
 
+import lombok.Builder;
+import lombok.Data;
+
+@Builder
+@Data
 public class getUserDTO {
-        public long id;
-        public String username;
-        public String email;
-        public String gender;
-        public int age;
+   private long id;
+   private String username;
+   private String email;
+   private String gender;
+   private int age;
 }
