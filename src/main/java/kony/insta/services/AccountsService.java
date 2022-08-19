@@ -1,33 +1,34 @@
 package kony.insta.services;
 
 import kony.insta.dto.account.*;
-import kony.insta.repositories.userRepository;
 import kony.insta.entities.userEntity;
+import kony.insta.repositories.userRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import kony.insta.exceptions.*;
 
 @Service
 public class AccountsService {
-    private final userRepository repo;
+    private final userRepository userRepo;
 
-    @Autowired
     public AccountsService(userRepository repo) {
-        this.repo = repo;
+        userRepo= repo;
     }
 
     public registerDTOres registerUser(registerDTO user) {
-        var entity = new userEntity();
-        entity.setAge(user.getAge());
-        entity.setEmail(user.getEmail());
-        entity.setGender(user.getGender());
-        entity.setUsername(user.getUsername());
-        entity.setPassword(user.getPassword());
-        return new registerDTOres(this.repo.addUser(entity));
+        if(userRepo.findByUsername(user.getUsername())!=null)
+            throw new BadRequest("Username already taken");
+        userEntity entity = userEntity.builder()
+        .age(user.getAge())
+        .email(user.getEmail())
+        .gender(user.getGender())
+        .username(user.getUsername())
+        .password(user.getPassword()).build();
+        return new registerDTOres(userRepo.save(entity).getId());
     }
 
     public getUserDTO getUser(String username) {
-        userEntity x = this.repo.getUser(username);
+        userEntity x = userRepo.findByUsername(username);
         if (x == null)
             throw new NotFoundException("no user found");
         return getUserDTO.builder()

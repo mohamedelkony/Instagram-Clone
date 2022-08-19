@@ -10,7 +10,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import kony.insta.dto.account.*;
 import kony.insta.dto.execptions.*;
-
+import kony.insta.repositories.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -29,6 +29,8 @@ class InstaCloneApplicationTests {
 
     @Autowired
     private ObjectMapper mapper;
+    @Autowired
+    private userRepository userRepo;
 
     registerDTO validUser = registerDTO.builder()
             .age(24)
@@ -47,6 +49,7 @@ class InstaCloneApplicationTests {
         @DisplayName("has registered successfully")
         @Order(1)
         void t1() throws Exception {
+            userRepo.deleteByUsernameOrEmail(validUser.getUsername(), validUser.getEmail());
             registerDTO user = registerDTO.builder()
                     .age(24)
                     .email("konykony22@gmail.com")
@@ -62,7 +65,7 @@ class InstaCloneApplicationTests {
                     .andReturn();
 
             registerDTOres res = mapper.readValue(req.getResponse().getContentAsString(), registerDTOres.class);
-            assertEquals(res.id, 1);
+            assertNotNull(res.id);
         }
 
         @Test

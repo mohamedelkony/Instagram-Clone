@@ -1,6 +1,7 @@
 package kony.insta.exceptions;
 
 import kony.insta.dto.execptions.errorMessageDTO;
+import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -16,6 +17,12 @@ public class ExceptionsAdvice {
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public errorMessageDTO notFoundHandler(NotFoundException ex) {
         return new errorMessageDTO(ex.getMessage());
+    }
+    @ResponseBody
+    @ExceptionHandler(DataAccessException.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public errorMessageDTO DataAccessHandler(DataAccessException ex) {
+        return new errorMessageDTO(ex.getMessage(),"DataAccess");
     }
     @ResponseBody
     @ExceptionHandler(BadRequest.class)
