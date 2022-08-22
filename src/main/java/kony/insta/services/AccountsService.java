@@ -28,6 +28,7 @@ public class AccountsService {
     }
 
     public getUserDTO getUser(String username) {
+       // int x=Authentication.getPrincipal().getId();
         userEntity x = userRepo.findByUsername(username);
         if (x == null)
             throw new NotFoundException("no user found");

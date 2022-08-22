@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import kony.insta.dto.account.*;
 import kony.insta.services.AccountsService;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
@@ -26,7 +27,8 @@ public class accountsController {
     }
 
     @GetMapping("/{username}")
-    public getUserDTO getUser(@PathVariable String username) {
+    public getUserDTO getUser(@PathVariable String username, HttpSession session) {
+
         return this.accountsService.getUser(username);
     }
 }
